@@ -1,4 +1,5 @@
 import requests
+from datetime import datetime
 
 USERNAME = "ky251"
 TOKEN = "fknsdknkfdnkaalmd"
@@ -30,12 +31,25 @@ headers = {
 # Create a graph for your own project
 # response = requests.post(url=graph_endpoint, json=graph_config, headers=headers)
 # print(response.text)
-pixel_creation_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}"
+# pixel_creation_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}"
+
+today = datetime(year=2026, month=2, day=7) # This is for changing time to post a value different time
+#today = datetime.now()
+
 # Post value to the graph
 pixel_data = {
-    "date": "20260208",
-    "quantity": "2.30"
+    "date": today.strftime("%Y%m%d"), # strftime is a function that replace the formatted yyyymmdd
+    "quantity": "6.50"
 }
-response = requests.post(url=pixel_creation_endpoint, json=pixel_data, headers=headers)
-print(response.text)
+# response = requests.post(url=pixel_creation_endpoint, json=pixel_data, headers=headers)
+# print(response.text)
 
+
+update_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}/{today.strftime('%Y%m%d')}"
+
+new_pixel_data = {
+    "quantity": "10.50",
+}
+
+response = requests.put(url=update_endpoint, json=new_pixel_data, headers=headers)
+print(response.text)
